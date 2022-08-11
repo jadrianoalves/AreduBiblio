@@ -51,16 +51,12 @@ public class BookService {
 	public Optional<BookModel> findById(Long id) {
 		
 		return bookRepository.findById(id);
-				
-				  
+
 					
 	}
-	
-	
 
-	
 
-	
-	
-	
+	public Optional<Object> findByBookCode(String bookCode) {
+		return bookRepository.findByBookCode(bookCode);
+	}
 }

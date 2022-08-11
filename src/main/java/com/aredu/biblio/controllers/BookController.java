@@ -39,11 +39,11 @@ public class BookController {
 		this.categoryService = categoryService;
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<BookModel> getBook(@PathVariable(value ="id") Long id){
-		BookModel book = bookService.findById(id).orElseThrow(()-> new BookNotFoundException("não encontrado"));
-
-		return ResponseEntity.status(HttpStatus.OK).body(book);
+	@GetMapping("/{bookCode}")
+	public ResponseEntity<BookModel> getBook(@PathVariable(value ="bookCode") String bookCode){
+		Optional<Object> book = bookService.findByBookCode(bookCode);
+		if(book.isEmpty()) throw new BookNotFoundException("livro nao encontrado");
+		return ResponseEntity.status(HttpStatus.OK).body((BookModel)book.get());
 	}
 	
 		

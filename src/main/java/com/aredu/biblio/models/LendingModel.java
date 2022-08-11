@@ -20,7 +20,7 @@ public class LendingModel implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	private long id;
 	@OneToOne
 	private BookModel book;
 	@OneToOne
