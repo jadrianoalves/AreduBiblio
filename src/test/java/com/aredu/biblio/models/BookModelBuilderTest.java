@@ -32,9 +32,8 @@ public class BookModelBuilderTest {
         List<BookModel> bookModelList = BookModelBuilder.builder("Isso é apenas um teste").addNumberOfCopies(3).get();
 
         Assertions.assertEquals(3, bookModelList.size());
-        Assertions.assertEquals(10, bookModelList.get(0).getIsbn().length());
         Assertions.assertEquals(11, bookModelList.get(0).getBookCode().length());
-        Assertions.assertEquals(bookModelList.get(0).getBookCode().substring(0,10), bookModelList.get(0).getIsbn());
+        Assertions.assertEquals(null, bookModelList.get(0).getIsbn());
         Assertions.assertNotEquals(bookModelList.get(0).getBookCode(), bookModelList.get(0).getIsbn());
     }
     
