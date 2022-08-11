@@ -4,41 +4,26 @@ package com.aredu.biblio.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mockitoSession;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.aredu.biblio.erros.BookNotFoundException;
 import com.aredu.biblio.models.BookModel;
 import com.aredu.biblio.models.CategoryModel;
 import com.aredu.biblio.respository.BookRepository;
 
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 public class BookServiceTest {
 
 	
@@ -88,8 +73,7 @@ public class BookServiceTest {
 		  BookModelDto book = new BookModelDto();
 		  book.setTitle("Isso é mais um teste");
 		  book.setIsbn("0123456789");
-		  book.setCategory(1L);
-		  book.setAmount(3);
+		  book.setNumberOfCopies(3);
 
 		  when(bookRepository.save(any())).thenReturn(NewBook);
 

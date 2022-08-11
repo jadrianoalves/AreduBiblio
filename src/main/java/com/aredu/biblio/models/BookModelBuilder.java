@@ -10,7 +10,7 @@ public class BookModelBuilder {
     private String title;
     private int numberOfCopies = 1;
     private CategoryModel category;
-    private boolean tempIsbn = false;
+
 
     private BookModelBuilder(String title){
         if(title.isEmpty()) throw new IllegalArgumentException("Título não pode ser vazio");
@@ -20,13 +20,18 @@ public class BookModelBuilder {
       return new BookModelBuilder(title);
     }
     public BookModelBuilder addIsbn(String isbn){
-        if(isbn !=null && !isbn.matches("[0-9]{10}") ) throw new IllegalArgumentException("Isbn inválido");
+        if(isbn !="" & !isbn.matches("[0-9]{10}") ) throw new IllegalArgumentException("Isbn inválido");
         this.isbn = isbn;
         return this;
     }
     public BookModelBuilder addNumberOfCopies(int numberOfCopies){
         if(numberOfCopies < 1) throw new IllegalArgumentException("Número de cópias inválido");
         this.numberOfCopies = numberOfCopies;
+        return this;
+    }
+
+    public BookModelBuilder addCategory(CategoryModel category) {
+        this.category = category;
         return this;
     }
     private List<BookModel> generateBooksList (List<String> bookIdList){
@@ -64,8 +69,6 @@ public class BookModelBuilder {
         }
         return resultList;
     }
-
-
 
 
 

@@ -8,7 +8,6 @@ import com.aredu.biblio.dto.BookModelDto;
 import com.aredu.biblio.models.BookModelBuilder;
 import org.springframework.stereotype.Service;
 
-import com.aredu.biblio.erros.BookNotFoundException;
 import com.aredu.biblio.models.BookModel;
 import com.aredu.biblio.respository.BookRepository;
 
@@ -33,7 +32,8 @@ public class BookService {
 		List<BookModel> books = BookModelBuilder
 				.builder(bookModelDto.getTitle())
 				.addIsbn(bookModelDto.getIsbn())
-				.addNumberOfCopies(bookModelDto.getAmount())
+				.addCategory(bookModelDto.getCategory())
+				.addNumberOfCopies(bookModelDto.getNumberOfCopies())
 				.get();
 		List<BookModel> generatedBooks = new ArrayList<>();
 		books.stream().forEach(

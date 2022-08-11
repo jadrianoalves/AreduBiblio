@@ -63,18 +63,11 @@ public class BookController {
 	}	
 	
 	@PostMapping("/")
-	public ResponseEntity<Object> saveBook(@RequestBody @Valid BookModelEntry bookModelEntry){
+	public ResponseEntity<List<BookModel>> saveBook(@RequestBody @Valid BookModelDto bookModelDto){
 		var bookModel = new BookModel();
-		BookModelDto bookModelDto = new BookModelDto();
-
-		CategoryModel categoryModel = categoryService.findById(bookModelEntry.getCategory()).get();
+		CategoryModel categoryModel = categoryService.findById(bookModelDto.getCategoryId()).get();
 		bookModelDto.setCategory(categoryModel);
-
-		bookService.create (bookModelDto);
-
-		
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookModel));
+		return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create (bookModelDto));
 	}
 	
 	
