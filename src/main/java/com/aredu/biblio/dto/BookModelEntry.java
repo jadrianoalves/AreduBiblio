@@ -1,15 +1,11 @@
 package com.aredu.biblio.dto;
 
-import java.util.Locale.Category;
-import java.util.UUID;
+import com.aredu.biblio.validation.constrain.Isbn;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.aredu.biblio.models.CategoryModel;
-import com.aredu.biblio.validation.constrain.Isbn;
-
-public class BookModelDto {
+public class BookModelEntry {
 	
 
 	@NotBlank
@@ -19,7 +15,7 @@ public class BookModelDto {
 	@Size(max = 80)
 	private String title;
 	private String obs;
-	private CategoryModel category;
+	private Long category;
 	public int getAmount() {
 		return amount;
 	}
@@ -40,7 +36,7 @@ public class BookModelDto {
 	public String getTitle() {
 		return this.title;
 	}
-	public CategoryModel getCategory() {
+	public Long getCategory() {
 		return this.category;
 	}
 	
@@ -54,7 +50,7 @@ public class BookModelDto {
 		this.obs = obs;
 	}
 	
-	public void setCategory(CategoryModel category) {
+	public void setCategory(Long category) {
 		this.category = category;
 	}
 		

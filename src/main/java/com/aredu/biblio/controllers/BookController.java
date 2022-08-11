@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.aredu.biblio.dto.BookModelEntry;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,15 +63,15 @@ public class BookController {
 	}	
 	
 	@PostMapping("/")
-	public ResponseEntity<Object> saveBook(@RequestBody @Valid BookModelDto bookModelDto){
+	public ResponseEntity<Object> saveBook(@RequestBody @Valid BookModelEntry bookModelEntry){
 		var bookModel = new BookModel();
-		
-		CategoryModel categoryModel = categoryService.findById(bookModelDto.getCategory()).get();
+		BookModelDto bookModelDto = new BookModelDto();
 
-		bookModel.setIsbn(bookModelDto.getIsbn());
-		bookModel.setTitle(bookModelDto.getTitle());
-		bookModel.setObs(bookModelDto.getObs());
-		bookModel.setCategory(categoryModel);
+		CategoryModel categoryModel = categoryService.findById(bookModelEntry.getCategory()).get();
+		bookModelDto.setCategory(categoryModel);
+
+		bookService.create (bookModelDto);
+
 		
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookModel));

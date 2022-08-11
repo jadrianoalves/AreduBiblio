@@ -3,6 +3,7 @@ package com.aredu.biblio.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockitoSession;
 import static org.mockito.Mockito.when;
 
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.aredu.biblio.dto.BookModelDto;
 import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -75,15 +77,28 @@ public class BookServiceTest {
 		
 	}
 	
-	
 	@Test
-	@DisplayName("Deve gerar uma lista de ids a partir do isbn informado de acordo com o número de exemplares informado ")
-	void gerar_ids_Test() {
-		
-		List<Long> listaEsperada =  Arrays.asList(Long.parseLong("1234561"),Long.parseLong("1234562"),Long.parseLong("1234563"));
-		List<Long> listaResultado = bookService.gerarIds("123456", 3);
-		assertEquals(listaEsperada, listaResultado);
+	void shouldCreateBooks(){
+
+		BookModel NewBook = new BookModel(); NewBook.setIsbn("123456789");
+		NewBook.setTitle("Isso é um teste"); NewBook.setCategory(new
+				CategoryModel("teste"));
+
+
+		  BookModelDto book = new BookModelDto();
+		  book.setTitle("Isso é mais um teste");
+		  book.setIsbn("0123456789");
+		  book.setCategory(1L);
+		  book.setAmount(3);
+
+		  when(bookRepository.save(any())).thenReturn(NewBook);
+
+		  List<BookModel> books = bookService.create(book);
+
+		  assertEquals(3, books.size());
+
 	}
+
 	
 	
 	@Test
