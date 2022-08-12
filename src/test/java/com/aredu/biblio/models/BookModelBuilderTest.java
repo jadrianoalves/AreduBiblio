@@ -1,5 +1,6 @@
 package com.aredu.biblio.models;
 
+import com.aredu.biblio.service.BookModelBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -31,14 +31,25 @@ public class BookModel implements Comparable<Object>, Serializable {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private CategoryModel category;
+
+	public int getNumberOfCopy() {
+		return numberOfCopy;
+	}
+
+	public void setNumberOfCopy(int numberOfCopy) {
+		this.numberOfCopy = numberOfCopy;
+	}
+
+	private int numberOfCopy;
 	private boolean avaliable = true;
 	
 	public BookModel() {};
 	
-	public BookModel(String isbn, String bookCode, String title, String obs, CategoryModel category) {
+	public BookModel(String isbn, String bookCode, int numberOfCopy , String title, String obs, CategoryModel category) {
 		super();
 		this.isbn = isbn;
 		this.bookCode = bookCode;
+		this.numberOfCopy = numberOfCopy;
 		this.title = title;
 		this.obs = obs;
 		this.category = category;

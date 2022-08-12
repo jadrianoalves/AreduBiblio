@@ -1,4 +1,7 @@
-package com.aredu.biblio.models;
+package com.aredu.biblio.service;
+
+import com.aredu.biblio.models.BookModel;
+import com.aredu.biblio.models.CategoryModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +9,24 @@ import java.util.List;
 
 public class BookModelBuilder {
 
+
+
     private String isbn;
     private String title;
     private int numberOfCopies = 1;
     private CategoryModel category;
 
+    private int lastNumberOfCopy;
+
+    public void setLastNumberOfCopy(int lastNumberOfCopy) {
+        this.lastNumberOfCopy = lastNumberOfCopy;
+    }
+
 
     private BookModelBuilder(String title){
         if(title.isEmpty()) throw new IllegalArgumentException("Título não pode ser vazio");
         this.title = title;
+
     }
     public static BookModelBuilder builder(String title){
       return new BookModelBuilder(title);
@@ -34,12 +46,13 @@ public class BookModelBuilder {
         this.category = category;
         return this;
     }
-    private List<BookModel> generateBooksList (List<String> bookIdList){
-        List<String> bookList = generateIds();
+    private List<BookModel> generateBooksList (List<BookCode> bookIdList){
+        List<BookCode> bookList = generateIds();
         List<BookModel> books = new ArrayList<BookModel>();
+
         bookList.stream()
                 .forEach((bookCod)->
-                    books.add(new BookModel(this.isbn, bookCod, this.title, "", this.category))
+                    books.add(new BookModel(this.isbn, bookCod.getBookCode(), bookCod.numberOfCopy,  this.title, "", this.category))
                 );
             return books;
     }
@@ -58,18 +71,50 @@ public class BookModelBuilder {
 
     }
 
-    private List<String> generateIds(){
+    private List<BookCode> generateIds(){
         String baseIsbn = "";
+        List<BookCode> booksCodes = new ArrayList<BookCode>();
+        int baseNumberOfCopy = this.lastNumberOfCopy;
         if(this.isbn == "" || this.isbn == null) baseIsbn = getRandomId(); else baseIsbn = this.isbn;
         if(this.numberOfCopies == 0) this.numberOfCopies = 1;
-        List<String> resultList = new ArrayList<String>();
-        for (int x=1; x <= this.numberOfCopies; x++ ) {
-            String result = baseIsbn.concat(String.valueOf(x));
-            resultList.add(result);
+
+        for (int x=baseNumberOfCopy; x <= this.numberOfCopies; x++ ) {
+            BookCode newBook = new BookCode();
+            //String result = baseIsbn.concat(String.valueOf(x));
+            newBook.setBookCode(baseIsbn.concat(String.valueOf(x)));
+            newBook.setNumberOfCopy(x);
+            booksCodes.add(newBook);
+
         }
-        return resultList;
+        return booksCodes;
     }
 
 
+
+
+    private class BookCode{
+
+        private int numberOfCopy;
+        private String bookCode;
+
+        public int getNumberOfCopy(){
+            return this.numberOfCopy;
+        }
+
+        public String getBookCode(){
+            return this.bookCode;
+        }
+
+        public void setNumberOfCopy(int numberOfCopy) {
+            this.numberOfCopy = numberOfCopy;
+        }
+        public void setBookCode(String bookCode) {
+            this.bookCode = bookCode;
+        }
+
+
+
+
+    }
 
 }

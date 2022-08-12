@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
-import com.aredu.biblio.models.BookModelBuilder;
 import org.springframework.stereotype.Service;
 
 import com.aredu.biblio.models.BookModel;
@@ -59,4 +58,15 @@ public class BookService {
 	public Optional<Object> findByBookCode(String bookCode) {
 		return bookRepository.findByBookCode(bookCode);
 	}
+
+	public int getLastNumberOfCopy(String isbn){
+			List<BookModel>books = findByIsbn(isbn);
+			if(books.isEmpty()) return 0;
+		return findByIsbn(isbn).get(books.size()-1).getNumberOfCopy();
+	}
+
+	public List<BookModel> findByIsbn(String isbn){
+		return bookRepository.findByIsbn(isbn);
+	}
+
 }
