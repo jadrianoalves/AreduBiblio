@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
+import com.aredu.biblio.erros.BookNotFoundException;
+import com.aredu.biblio.models.BookCode;
+import com.aredu.biblio.models.CategoryModel;
+import com.aredu.biblio.respository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import com.aredu.biblio.models.BookModel;
@@ -18,23 +22,28 @@ public class BookService {
 
 	
 	private BookRepository bookRepository;
+	private CategoryRepository categoryRepository;
 
 
-	public BookService(BookRepository bookRepository) {
+	public BookService(BookRepository bookRepository, CategoryRepository categoryRepository) {
 
         this.bookRepository = bookRepository;
-
+		this.categoryRepository = categoryRepository;
 	}
 
 	@Transactional
 	public List<BookModel> create (BookModelDto bookModelDto){
+
+		BookCode bookCode = bookCodeFactory(bookModelDto.getIsbn());
+
+		CategoryModel category = findCategory(bookModelDto.getCategoryId());
+
 		List<BookModel> books = BookModelBuilder
-				.builder(bookModelDto.getTitle())
+				.builder(bookModelDto.getTitle(),bookCode, category)
 				.addIsbn(bookModelDto.getIsbn())
-				.addCategory(bookModelDto.getCategory())
 				.addNumberOfCopies(bookModelDto.getNumberOfCopies())
 				.get();
-		List<BookModel> generatedBooks = new ArrayList<>();
+		List<BookModel> generatedBooks = new ArrayList<BookModel>();
 		books.stream().forEach(
 				(book)-> generatedBooks.add(bookRepository.save(book))
 		);
@@ -48,25 +57,41 @@ public class BookService {
 
 
 	public Optional<BookModel> findById(Long id) {
-		
 		return bookRepository.findById(id);
-
-					
 	}
-
 
 	public Optional<Object> findByBookCode(String bookCode) {
 		return bookRepository.findByBookCode(bookCode);
 	}
 
+	public BookCode bookCodeFactory(String isbn){
+			int lastNumberOfCopy =  getLastNumberOfCopy(isbn);
+			if(lastNumberOfCopy == 1) return new BookCode(getRandomId(), 1);
+		return new BookCode(isbn, lastNumberOfCopy);
+	}
+
+	private String getRandomId(){
+
+		long getBaseNum = System.currentTimeMillis();
+		return String.valueOf(getBaseNum).substring(3,13);
+
+	}
+
+
 	public int getLastNumberOfCopy(String isbn){
 			List<BookModel>books = findByIsbn(isbn);
-			if(books.isEmpty()) return 0;
-		return findByIsbn(isbn).get(books.size()-1).getNumberOfCopy();
+			if(books.isEmpty()) return 1;
+		return findByIsbn(isbn).get(books.size()).getNumberOfCopy();
 	}
 
 	public List<BookModel> findByIsbn(String isbn){
 		return bookRepository.findByIsbn(isbn);
+	}
+
+	public CategoryModel findCategory(long id){
+			Optional<CategoryModel> category = categoryRepository.findById(id);
+			if(category.isEmpty()) throw new BookNotFoundException("Categoria de Livro não encontrada");
+		return category.get();
 	}
 
 }

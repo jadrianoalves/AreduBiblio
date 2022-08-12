@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
+import com.aredu.biblio.respository.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,8 @@ public class BookServiceTest {
 	
 	@Mock
 	private BookRepository bookRepository;
+	@Mock
+	private CategoryRepository categoryRepository;
 	
 	  @BeforeEach void setup() {
 	  
@@ -65,17 +68,21 @@ public class BookServiceTest {
 	@Test
 	void shouldCreateBooks(){
 
-		BookModel NewBook = new BookModel(); NewBook.setIsbn("123456789");
-		NewBook.setTitle("Isso é um teste"); NewBook.setCategory(new
+		BookModel newBook = new BookModel(); newBook.setIsbn("123456789");
+		newBook.setTitle("Isso é um teste");
+		newBook.setCategory(new
 				CategoryModel("teste"));
 
+		CategoryModel newCaegory = new CategoryModel("teste");
 
 		  BookModelDto book = new BookModelDto();
 		  book.setTitle("Isso é mais um teste");
 		  book.setIsbn("0123456789");
 		  book.setNumberOfCopies(3);
 
-		  when(bookRepository.save(any())).thenReturn(NewBook);
+		  when(bookRepository.save(any())).thenReturn(newBook);
+
+		  when(categoryRepository.findById(any())).thenReturn(Optional.of(newCaegory));
 
 		  List<BookModel> books = bookService.create(book);
 

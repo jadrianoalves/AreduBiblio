@@ -25,8 +25,6 @@ public class BookRepositoryTest {
 		
 	}
 	
-	private BookModel book() {
-		return new BookModel("123456789", "", "Isso é um teste", "", new CategoryModel("Teste"));
-	}
+
 
 }
