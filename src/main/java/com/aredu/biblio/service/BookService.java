@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.aredu.biblio.models.BookModel;
 import com.aredu.biblio.respository.BookRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 
@@ -65,9 +66,10 @@ public class BookService {
 	}
 
 	public BookCode bookCodeFactory(String isbn){
-			int lastNumberOfCopy =  getLastNumberOfCopy(isbn);
-			if(lastNumberOfCopy == 1) return new BookCode(getRandomId(), 1);
-		return new BookCode(isbn, lastNumberOfCopy);
+		int lastNumberOfCopy;
+		 lastNumberOfCopy =  getLastNumberOfCopy(isbn);
+			if(lastNumberOfCopy == 0) return new BookCode(getRandomId(), 1);
+		return new BookCode(isbn, lastNumberOfCopy + 1);
 	}
 
 	private String getRandomId(){
@@ -79,9 +81,10 @@ public class BookService {
 
 
 	public int getLastNumberOfCopy(String isbn){
-			List<BookModel>books = findByIsbn(isbn);
-			if(books.isEmpty()) return 1;
-		return findByIsbn(isbn).get(books.size()).getNumberOfCopy();
+		List<BookModel>books;
+		 books = findByIsbn(isbn);
+			if(books.isEmpty()) return 0;
+		return findByIsbn(isbn).get(books.size()-1).getNumberOfCopy();
 	}
 
 	public List<BookModel> findByIsbn(String isbn){
@@ -92,6 +95,10 @@ public class BookService {
 			Optional<CategoryModel> category = categoryRepository.findById(id);
 			if(category.isEmpty()) throw new BookNotFoundException("Categoria de Livro não encontrada");
 		return category.get();
+	}
+
+	public List<BookModel> findByTitle(String title){
+		return bookRepository.findByTitleContains(title);
 	}
 
 }

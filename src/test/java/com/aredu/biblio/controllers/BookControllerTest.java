@@ -97,9 +97,7 @@ public class BookControllerTest {
         mockMvc.perform(post("/books/categories")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(categoy1)))
-                .andExpect(status().isOk());
-
-
+                .andExpect(status().isCreated());
     }
 
 

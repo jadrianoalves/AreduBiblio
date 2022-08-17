@@ -112,7 +112,6 @@ public class BookModel implements Comparable<Object>, Serializable {
 	}
 
 
-
 	public void setAvaliable(boolean avaliable) {
 		this.avaliable = avaliable;
 	}
