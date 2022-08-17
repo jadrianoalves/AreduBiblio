@@ -5,15 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
-import com.aredu.biblio.erros.BookNotFoundException;
-import com.aredu.biblio.models.BookCode;
-import com.aredu.biblio.models.CategoryModel;
-import com.aredu.biblio.respository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aredu.biblio.models.BookModel;
 import com.aredu.biblio.respository.BookRepository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 
@@ -21,84 +17,70 @@ import javax.transaction.Transactional;
 @Service
 public class BookService {
 
-	
-	private BookRepository bookRepository;
-	private CategoryRepository categoryRepository;
+	@Autowired
+	private BookRepository repository;
 
-
-	public BookService(BookRepository bookRepository, CategoryRepository categoryRepository) {
-
-        this.bookRepository = bookRepository;
-		this.categoryRepository = categoryRepository;
-	}
 
 	@Transactional
 	public List<BookModel> create (BookModelDto bookModelDto){
+		return savedBooks(generateBooks(bookModelDto));
+	}
 
-		BookCode bookCode = bookCodeFactory(bookModelDto.getIsbn());
+	public List<BookModel> savedBooks (List<BookModel> books){
+		List<BookModel> savedBooks = new ArrayList<BookModel>();
+		for(BookModel book : books){
+			savedBooks.add(repository.save(book));
+		}
+		return savedBooks;
+	}
 
-		CategoryModel category = findCategory(bookModelDto.getCategoryId());
-
-		List<BookModel> books = BookModelBuilder
-				.builder(bookModelDto.getTitle(),bookCode, category)
+	public List<BookModel> generateBooks(BookModelDto bookModelDto){
+		String isbn = bookModelDto.getIsbn();
+		List<BookModel>books = findByIsbn(bookModelDto.getIsbn());
+		int lastCopy = getLastCopyNumberOfBook(books);
+		BookModel book = new BookModel.Builder()
 				.addIsbn(bookModelDto.getIsbn())
-				.addNumberOfCopies(bookModelDto.getNumberOfCopies())
-				.get();
-		List<BookModel> generatedBooks = new ArrayList<BookModel>();
-		books.stream().forEach(
-				(book)-> generatedBooks.add(bookRepository.save(book))
-		);
-		return generatedBooks;
+				.addTitle(bookModelDto.getTitle())
+				.addObs(bookModelDto.getObs())
+				.build();
+
+		return buildNewBooks(book, lastCopy);
 	}
 
-
-	public BookModel save(BookModel bookModel) {
-		return bookRepository.save(bookModel);
+	public int getLastCopyNumberOfBook(List books){
+		if(books.isEmpty()) return 0;
+		BookModel book = (BookModel) books.get(books.size()-1);
+		return book.getCopyNumber();
 	}
 
-
-	public Optional<BookModel> findById(Long id) {
-		return bookRepository.findById(id);
+	public List<BookModel> findByIsbn (String isbn){
+		if(isbn.isEmpty()) return new ArrayList<BookModel>();
+		return repository.findByIsbn(isbn);
 	}
 
-	public Optional<Object> findByBookCode(String bookCode) {
-		return bookRepository.findByBookCode(bookCode);
-	}
-
-	public BookCode bookCodeFactory(String isbn){
-		int lastNumberOfCopy;
-		 lastNumberOfCopy =  getLastNumberOfCopy(isbn);
-			if(lastNumberOfCopy == 0) return new BookCode(getRandomId(), 1);
-		return new BookCode(isbn, lastNumberOfCopy + 1);
+	public Optional<Object> findByBookCode(String bookCode){
+		return repository.findByBookCode(bookCode);
 	}
 
 	private String getRandomId(){
-
 		long getBaseNum = System.currentTimeMillis();
 		return String.valueOf(getBaseNum).substring(3,13);
-
 	}
 
-
-	public int getLastNumberOfCopy(String isbn){
-		List<BookModel>books;
-		 books = findByIsbn(isbn);
-			if(books.isEmpty()) return 0;
-		return findByIsbn(isbn).get(books.size()-1).getNumberOfCopy();
-	}
-
-	public List<BookModel> findByIsbn(String isbn){
-		return bookRepository.findByIsbn(isbn);
-	}
-
-	public CategoryModel findCategory(long id){
-			Optional<CategoryModel> category = categoryRepository.findById(id);
-			if(category.isEmpty()) throw new BookNotFoundException("Categoria de Livro não encontrada");
-		return category.get();
+	private List<BookModel> buildNewBooks(BookModel bookModel, int numberOfCopies){
+		List<BookModel> books = new ArrayList<>();
+		for (int x=0; x <= numberOfCopies; x++) {
+			BookModel book = new BookModel();
+			book = bookModel;
+			book.setBookCode(getRandomId());
+			book.setCopyNumber(bookModel.getCopyNumber() + 1);
+			books.add(bookModel);
+		}
+		return books;
 	}
 
 	public List<BookModel> findByTitle(String title){
-		return bookRepository.findByTitleContains(title);
+		return repository.findByTitleContains(title);
 	}
 
 }

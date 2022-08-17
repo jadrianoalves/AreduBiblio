@@ -2,7 +2,6 @@ package com.aredu.biblio.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import com.aredu.biblio.models.CategoryModel;
 
 public class BookModelDto {
 
@@ -11,18 +10,15 @@ public class BookModelDto {
 	@Size(max = 80)
 	private String title;
 	private String obs;
-	private CategoryModel category;
-	private long categoryId;
 	private int numberOfCopies;
 
 	public BookModelDto() {
 	}
 
-	public BookModelDto(String isbn, String title, String obs, long categoryId, int numberOfCopies) {
+	public BookModelDto(String isbn, String title, String obs, int numberOfCopies) {
 		this.isbn = isbn;
 		this.title = title;
 		this.obs = obs;
-		this.categoryId = categoryId;
 		this.numberOfCopies = numberOfCopies;
 	}
 
@@ -38,14 +34,6 @@ public class BookModelDto {
 		return obs;
 	}
 
-	public CategoryModel getCategory() {
-		return this.category;
-	}
-
-	public long getCategoryId() {
-		return this.categoryId;
-	}
-
 	public int getNumberOfCopies() {
 		return numberOfCopies;
 	}
@@ -58,18 +46,8 @@ public class BookModelDto {
 		this.title = title;
 	}
 
-
 	public void setObs(String obs) {
 		this.obs = obs;
-	}
-
-	public void setCategory(CategoryModel category) {
-		this.category = category;
-	}
-
-
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
 	}
 
 	public void setNumberOfCopies(int numberOfCopies) {

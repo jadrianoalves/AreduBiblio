@@ -10,87 +10,55 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
-import com.aredu.biblio.respository.CategoryRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.aredu.biblio.models.BookModel;
-import com.aredu.biblio.models.CategoryModel;
 import com.aredu.biblio.respository.BookRepository;
 
 
 @ExtendWith(SpringExtension.class)
-//@ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
 
 	
-	
 	@InjectMocks
-	private BookService bookService;
+	private BookService service;
 	
 	
 	@Mock
-	private BookRepository bookRepository;
-	@Mock
-	private CategoryRepository categoryRepository;
+	private BookRepository repository;
+
 	
 	  @BeforeEach void setup() {
 	  
-	  BookModel book = new BookModel(); book.setIsbn("123456789");
-	  book.setTitle("Isso é um teste"); book.setCategory(new
-	  CategoryModel("teste"));
-	  
-	  
-	  when(bookRepository.findById(1L)) .thenReturn(Optional.of(book));
-	  
+	  BookModel book = new BookModel.Builder()
+			  .addTitle("Isso é apenas um teste")
+			  .build();
+
+	  when(repository.findById(1L)) .thenReturn(Optional.of(book));
+	  when(repository.save(any())).thenReturn(book);
+
 	  
 	  }
 	
 	@Test
 	void shouldSaveBook() {
+
+		BookModelDto dto = new BookModelDto("","Isso é um teste","",1);
 		
-		BookModel book = new BookModel(); book.setIsbn("123456789");
-		book.setTitle("Isso é um teste"); book.setCategory(new
-		CategoryModel("teste"));
+		List<BookModel> newBooks = service.create(dto);
 		
-		when(bookRepository.save(book)).thenReturn(book);
-		
-		BookModel newBook = bookService.save(book);
-		
-		assertEquals(book, newBook);
+		Assertions.assertThat(newBooks.size()).isEqualTo(1);
 		
 	}
 	
-	@Test
-	void shouldCreateBooks(){
 
-		BookModel newBook = new BookModel(); newBook.setIsbn("123456789");
-		newBook.setTitle("Isso é um teste");
-		newBook.setCategory(new
-				CategoryModel("teste"));
-
-		CategoryModel newCaegory = new CategoryModel("teste");
-
-		  BookModelDto book = new BookModelDto();
-		  book.setTitle("Isso é mais um teste");
-		  book.setIsbn("0123456789");
-		  book.setNumberOfCopies(3);
-
-		  when(bookRepository.save(any())).thenReturn(newBook);
-
-		  when(categoryRepository.findById(any())).thenReturn(Optional.of(newCaegory));
-
-		  List<BookModel> books = bookService.create(book);
-
-		  assertEquals(3, books.size());
-
-	}
 
 	
 	
@@ -98,18 +66,14 @@ public class BookServiceTest {
 	@DisplayName("Deve encontrar um livro pelo id e retornálo")
 	void sholdFindBookForId() {
 
+		BookModel book = new BookModel.Builder()
+				.addTitle("Isso é apenas um teste")
+				.build();
 
-		BookModel book = new BookModel();
-		book.setIsbn("123456789");
-		book.setTitle("Isso é um teste");
-		book.setCategory(new CategoryModel("teste"));
-			
-		
-		when(bookRepository.findById(1L))
+		when(repository.findById(1L))
 			.thenReturn(Optional.of(book));
 		
-		
-		assertEquals("123456789", (bookRepository.findById(1L).get().getIsbn()));
+		Assertions.assertThat(repository.findById(1L).isPresent()).isTrue();
 		
 	}
 	
