@@ -26,7 +26,7 @@ public class BookService {
 		return savedBooks(generateBooks(bookModelDto));
 	}
 
-	public List<BookModel> savedBooks (List<BookModel> books){
+	private List<BookModel> savedBooks (List<BookModel> books){
 		List<BookModel> savedBooks = new ArrayList<BookModel>();
 		for(BookModel book : books){
 			savedBooks.add(repository.save(book));
@@ -34,7 +34,7 @@ public class BookService {
 		return savedBooks;
 	}
 
-	public List<BookModel> generateBooks(BookModelDto bookModelDto){
+	private List<BookModel> generateBooks(BookModelDto bookModelDto){
 		String isbn = bookModelDto.getIsbn();
 		List<BookModel>books = findByIsbn(bookModelDto.getIsbn());
 		int lastCopy = getLastCopyNumberOfBook(books);
@@ -42,18 +42,19 @@ public class BookService {
 				.addIsbn(bookModelDto.getIsbn())
 				.addTitle(bookModelDto.getTitle())
 				.addObs(bookModelDto.getObs())
+				.addCopyNumber(lastCopy)
 				.build();
 
-		return buildNewBooks(book, lastCopy);
+		return buildNewBooks(book, bookModelDto.getNumberOfCopies());
 	}
 
-	public int getLastCopyNumberOfBook(List books){
+	private int getLastCopyNumberOfBook(List books){
 		if(books.isEmpty()) return 0;
 		BookModel book = (BookModel) books.get(books.size()-1);
 		return book.getCopyNumber();
 	}
 
-	public List<BookModel> findByIsbn (String isbn){
+	private List<BookModel> findByIsbn (String isbn){
 		if(isbn.isEmpty()) return new ArrayList<BookModel>();
 		return repository.findByIsbn(isbn);
 	}
@@ -64,17 +65,24 @@ public class BookService {
 
 	private String getRandomId(){
 		long getBaseNum = System.currentTimeMillis();
-		return String.valueOf(getBaseNum).substring(3,13);
+		return String.valueOf(getBaseNum);
 	}
 
 	private List<BookModel> buildNewBooks(BookModel bookModel, int numberOfCopies){
 		List<BookModel> books = new ArrayList<>();
-		for (int x=0; x <= numberOfCopies; x++) {
-			BookModel book = new BookModel();
-			book = bookModel;
-			book.setBookCode(getRandomId());
-			book.setCopyNumber(bookModel.getCopyNumber() + 1);
-			books.add(bookModel);
+		int baseCopyNumber = bookModel.getCopyNumber();
+		for (int x=1; x <= numberOfCopies; x++) {
+			BookModel book = new BookModel.Builder()
+					.addTitle(bookModel.getTitle())
+					.addIsbn(bookModel.getIsbn())
+					.addObs(bookModel.getObs())
+					.addBookCode(getRandomId()+x)
+					.build();
+
+
+			book.setCopyNumber( baseCopyNumber + 1);
+			books.add(book);
+			baseCopyNumber++;
 		}
 		return books;
 	}

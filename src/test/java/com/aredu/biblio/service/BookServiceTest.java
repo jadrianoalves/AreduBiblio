@@ -35,19 +35,9 @@ public class BookServiceTest {
 	private BookRepository repository;
 
 	
-	  @BeforeEach void setup() {
-	  
-	  BookModel book = new BookModel.Builder()
-			  .addTitle("Isso é apenas um teste")
-			  .build();
 
-	  when(repository.findById(1L)) .thenReturn(Optional.of(book));
-	  when(repository.save(any())).thenReturn(book);
-
-	  
-	  }
-	
 	@Test
+	@DisplayName("Deve criar um exemplar de livro")
 	void shouldSaveBook() {
 
 		BookModelDto dto = new BookModelDto("","Isso é um teste","",1);
@@ -76,6 +66,8 @@ public class BookServiceTest {
 		Assertions.assertThat(repository.findById(1L).isPresent()).isTrue();
 		
 	}
+
+
 	
 	
 	

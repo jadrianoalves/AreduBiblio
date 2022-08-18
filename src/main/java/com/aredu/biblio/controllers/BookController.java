@@ -24,21 +24,20 @@ public class BookController {
 	private BookService service;
 
 	@GetMapping("/{bookCode}")
-	public ResponseEntity<BookModel> getBook(@PathVariable(value ="bookCode") String bookCode){
+	public ResponseEntity<Object> getBook(@PathVariable(value ="bookCode") String bookCode){
 		Optional<Object> book = service.findByBookCode(bookCode);
-		if(book.isEmpty()) throw new BookNotFoundException("livro nao encontrado");
-		return ResponseEntity.status(HttpStatus.OK).body((BookModel)book.get());
+		if(book.isEmpty()) throw new BookNotFoundException("Livro não encontrado");
+		return ResponseEntity.status(HttpStatus.OK).body(book.get());
 	}
 	
 
-	@GetMapping("/filter")
+	@GetMapping("/find")
 	public ResponseEntity<List<BookModel>> getBookByTitle(@RequestParam("title") String title){
 		return ResponseEntity.status(HttpStatus.OK).body(service.findByTitle(title));
 	}
 
 	@PostMapping("/")
 	public ResponseEntity<List<BookModel>> saveBook(@RequestBody @Valid BookModelDto bookModelDto){
-		var bookModel = new BookModel();
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.create (bookModelDto));
 	}
 	

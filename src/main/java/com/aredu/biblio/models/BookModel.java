@@ -23,6 +23,7 @@ public class BookModel implements Serializable {
 	private String obs;
 	private int copyNumber = 0;
 	private boolean available = true;
+	private List<>
 
 	public BookModel(){}
 	private BookModel(Builder builder){

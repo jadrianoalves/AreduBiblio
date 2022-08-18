@@ -19,19 +19,7 @@ public class LendingService {
     @Autowired
     private LendingRepository lendingRepository;
 
-    public List<StudentModel> findStudents(){
 
-        RestTemplate restTemplate = new RestTemplate();
-        String resource = "https://sisaredu.diganmedia.com.br/api/alunos-por-nome";
-        ResponseEntity <List> response = restTemplate.getForEntity(resource, List.class);
-        List<StudentModel> students = response.getBody();
-
-        return students;
-    }
-
-    public LendingModel save(LendingModel lendingModel){
-        return lendingRepository.save(lendingModel);
-    }
 
 
 }

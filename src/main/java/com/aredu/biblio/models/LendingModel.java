@@ -16,8 +16,10 @@ public class LendingModel implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String bookCode;
-	private String student;
+	@ManyToOne
+	private BookModel bookModel;
+	@ManyToOne
+	private StudentModel student;
 	private LocalDate dateOfLending;
 	private LocalDate dateOfDevolution;
 	private StatusLendingEnum status;
