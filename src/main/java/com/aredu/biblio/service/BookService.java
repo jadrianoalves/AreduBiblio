@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aredu.biblio.dto.BookModelDto;
+import com.aredu.biblio.erros.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +91,18 @@ public class BookService {
 	public List<BookModel> findByTitle(String title){
 		return repository.findByTitleContains(title);
 	}
+
+	public BookModel updateStatusBoook(BookModel bookModel){
+		Optional<Object> book = repository.findByBookCode(bookModel.getBookCode());
+		if(book.isEmpty()) throw new BookNotFoundException("livro não encontrado");
+		return repository.save((BookModel) book.get());
+
+	}
+
+	public BookModel save(BookModel bookModel){
+		return repository.save(bookModel);
+	}
+
+
 
 }

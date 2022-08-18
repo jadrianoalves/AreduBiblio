@@ -1,12 +1,9 @@
 package com.aredu.biblio.models;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_book")
@@ -23,7 +20,8 @@ public class BookModel implements Serializable {
 	private String obs;
 	private int copyNumber = 0;
 	private boolean available = true;
-	private List<>
+	@OneToMany
+	private List<LendingModel> lendingModelList;
 
 	public BookModel(){}
 	private BookModel(Builder builder){
@@ -69,6 +67,10 @@ public class BookModel implements Serializable {
 		this.bookCode = bookCode;
 	}
 
+	public void updateStatus(boolean status){
+		this.available =status;
+	}
+
 	public static class Builder {
 
 		private String isbn;
@@ -76,6 +78,10 @@ public class BookModel implements Serializable {
 		private String title;
 		private String obs;
 		private int copyNumber;
+
+		private boolean available;
+
+
 
 		public Builder(){};
 		public Builder(String isbn, String bookCode, String title, String obs, int copyNumber) {
@@ -85,6 +91,8 @@ public class BookModel implements Serializable {
 			this.obs = obs;
 			this.copyNumber = copyNumber;
 		}
+
+
 
 		public Builder addBookCode(String bookCode){
 			this.bookCode = bookCode;

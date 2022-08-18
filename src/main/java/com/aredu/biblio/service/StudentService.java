@@ -35,6 +35,11 @@ public class StudentService {
         return repository.save(studentModel);
     }
 
+    public StudentModel save(StudentModel studentModel){
+        studentModel.setActive(true);
+        return repository.save(studentModel);
+    }
+
     public List<StudentModel> findByName(String name){
         return repository.findByNameContains(name);
     }
@@ -43,6 +48,11 @@ public class StudentService {
         return repository.findById(id);
     }
 
+    public StudentModel findOrSave (StudentModel studentModel){
 
+        Optional<StudentModel> student = findById(studentModel.getId());
+        if(student.isPresent()) return student.get();
+        return save(studentModel);
+    }
 
 }

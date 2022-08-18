@@ -72,6 +72,10 @@ public class StudentModel implements Serializable {
 		this.active = active;
 	}
 
+	public List<LendingModel> getLendingModelList() {
+		return lendingModelList;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
