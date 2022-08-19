@@ -28,4 +28,11 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(studentModelDto));
     }
 
+    @PostMapping("/find-or-save")
+    public ResponseEntity<StudentModel> findOrSave (@RequestBody @Valid StudentModel studentModel){
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.findOrSave(studentModel));
+    }
+
+
 }

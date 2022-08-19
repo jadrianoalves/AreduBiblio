@@ -49,8 +49,9 @@ public class StudentService {
     }
 
     public StudentModel findOrSave(StudentModel studentModel){
-        Optional<StudentModel> student = findById(studentModel.getId());
-        if(student.isEmpty()) return save(studentModel); else return student.get();
+
+        Optional<StudentModel> student = repository.findById(studentModel.getId());
+          if(student.isEmpty()) return repository.save(studentModel); else return student.get();
     }
 
 

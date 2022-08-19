@@ -33,4 +33,9 @@ public class LendingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(lendingModelDto));
     }
 
+    @GetMapping("/return/{book}")
+    public ResponseEntity<LendingModel> returnBook (@PathVariable(value = "book") String bookCode){
+        return ResponseEntity.status(HttpStatus.OK).body(service.returnBook(bookCode, "BORROWED"));
+    }
+
 }

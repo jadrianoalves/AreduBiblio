@@ -41,10 +41,14 @@ public class LendingService {
                 .addBook(lendingModelDto.getBookModel())
                 .addDateOfLending(LocalDate.now())
                 .addDateOfDevolution(LocalDate.now().plus(15,ChronoUnit.DAYS))
-                .addStatus(StatusLendingEnum.NOT_AVALIABLE)
+                .addStatus(StatusLendingEnum.BORROWED)
                 .build();
 
         return repository.save(lending);
+    }
+
+    public LendingModel returnBook(String bookCode, String status){
+        return repository.findBorrowedBookByCode(bookCode, status);
     }
 
 

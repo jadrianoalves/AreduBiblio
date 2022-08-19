@@ -22,6 +22,7 @@ public class LendingModel implements Serializable{
 	private StudentModel student;
 	private LocalDate dateOfLending;
 	private LocalDate dateOfDevolution;
+	private LocalDate dateOfReturned;
 	private StatusLendingEnum status;
 
 	public LendingModel(){}
@@ -50,17 +51,30 @@ public class LendingModel implements Serializable{
 		return dateOfDevolution;
 	}
 
+	public LocalDate getDateOfReturned() {
+		return dateOfReturned;
+	}
+
+
 	public StatusLendingEnum getStatus() {
 		return status;
 	}
 
+
+	public void setDateOfReturned(LocalDate dateOfReturned){
+		this.dateOfReturned = dateOfReturned;
+	}
+
 	private LendingModel(Builder builder){
 		this.bookCode = builder.getBookCode();
+		this.book = builder.getBook();
 		this.student = builder.getStudent();
 		this.dateOfLending = builder.getDateOfLending();
 		this.dateOfDevolution = builder.getDateOfDevolution();
 		this.status = builder.getStatus();
 	}
+
+
 
 	public static class Builder{
 
@@ -75,6 +89,10 @@ public class LendingModel implements Serializable{
 
 		private String getBookCode() {
 			return bookCode;
+		}
+
+		private BookModel getBook() {
+			return book;
 		}
 
 		private StudentModel getStudent() {

@@ -2,7 +2,7 @@ package com.aredu.biblio.models;
 
 public enum StatusLendingEnum {
 
-    AVALIABLE(1), NOT_AVALIABLE(0);
+    BORROWED(1), RETURNED(0);
 
     public int statusLending;
 
