@@ -35,31 +35,21 @@ public class LendingService {
 
     public LendingModel create (LendingModelDto lendingModelDto){
 
-        Optional<Object> optionalBook = bookService.findByBookCode(lendingModelDto.getBookCode());
-            if(optionalBook.isEmpty()) throw new BookNotFoundException("Livro não encontrado");
-            BookModel book = (BookModel) optionalBook.get();
-        StudentModel student = studentService.findOrSave(lendingModelDto.getStudent());
-            LendingModel lending = lendBook(book, student);
-            book.updateStatus(false);
-            bookService.updateStatusBoook(book);
-            return lending;
-
-    }
-
-    public LendingModel lendBook(BookModel book, StudentModel student){
         LendingModel lending = new LendingModel.Builder()
+                .addStudent(lendingModelDto.getStudent())
+                .addBookCode(lendingModelDto.getBookCode())
+                .addBook(lendingModelDto.getBookModel())
                 .addDateOfLending(LocalDate.now())
                 .addDateOfDevolution(LocalDate.now().plus(15,ChronoUnit.DAYS))
-                .addBookCode(book.getBookCode())
-                .addStudent(student)
                 .addStatus(StatusLendingEnum.NOT_AVALIABLE)
                 .build();
-        return lending;
+
+        return repository.save(lending);
     }
 
-    public List<LendingModel> getBorrowedBooks(long student){
-        return studentService.findById(student).get().getLendingModelList();
-    }
+
+
+
 
     public List<LendingModel> findAll(){
         return repository.findAll();

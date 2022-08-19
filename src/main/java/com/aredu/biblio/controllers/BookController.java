@@ -38,7 +38,7 @@ public class BookController {
 
 	@PostMapping("/")
 	public ResponseEntity<List<BookModel>> saveBook(@RequestBody @Valid BookModelDto bookModelDto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.create (bookModelDto));
+		return ResponseEntity.status(HttpStatus.OK).body(service.create (bookModelDto));
 	}
 	
 

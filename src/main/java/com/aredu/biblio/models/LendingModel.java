@@ -12,11 +12,11 @@ public class LendingModel implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
+	private Long id;
+	@ManyToOne
+	private BookModel book;
 	private String bookCode;
 	@ManyToOne
 	private StudentModel student;
@@ -24,6 +24,35 @@ public class LendingModel implements Serializable{
 	private LocalDate dateOfDevolution;
 	private StatusLendingEnum status;
 
+	public LendingModel(){}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getBookCode() {
+		return bookCode;
+	}
+
+	public BookModel getBook(){
+		return book;
+	}
+
+	public StudentModel getStudent() {
+		return student;
+	}
+
+	public LocalDate getDateOfLending() {
+		return dateOfLending;
+	}
+
+	public LocalDate getDateOfDevolution() {
+		return dateOfDevolution;
+	}
+
+	public StatusLendingEnum getStatus() {
+		return status;
+	}
 
 	private LendingModel(Builder builder){
 		this.bookCode = builder.getBookCode();
@@ -36,6 +65,7 @@ public class LendingModel implements Serializable{
 	public static class Builder{
 
 		private String bookCode;
+		private BookModel book;
 		private StudentModel student;
 		private LocalDate dateOfLending;
 		private LocalDate dateOfDevolution;
@@ -65,6 +95,11 @@ public class LendingModel implements Serializable{
 
 		public Builder addBookCode(String bookCode){
 			this.bookCode = bookCode;
+			return this;
+		}
+
+		public Builder addBook(BookModel bookModel){
+			this.book = bookModel;
 			return this;
 		}
 

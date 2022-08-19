@@ -20,7 +20,7 @@ public class BookModel implements Serializable {
 	private String obs;
 	private int copyNumber = 0;
 	private boolean available = true;
-	@OneToMany
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
 	private List<LendingModel> lendingModelList;
 
 	public BookModel(){}
@@ -78,10 +78,31 @@ public class BookModel implements Serializable {
 		private String title;
 		private String obs;
 		private int copyNumber;
-
 		private boolean available;
 
+		public String getIsbn() {
+			return isbn;
+		}
 
+		public String getBookCode() {
+			return bookCode;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public String getObs() {
+			return obs;
+		}
+
+		public int getCopyNumber() {
+			return copyNumber;
+		}
+
+		public boolean isAvailable() {
+			return available;
+		}
 
 		public Builder(){};
 		public Builder(String isbn, String bookCode, String title, String obs, int copyNumber) {
@@ -98,6 +119,8 @@ public class BookModel implements Serializable {
 			this.bookCode = bookCode;
 			return this;
 		}
+
+
 
 		public Builder addIsbn (String isbn){
 			this.isbn = isbn;

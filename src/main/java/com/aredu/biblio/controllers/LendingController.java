@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,6 @@ public class LendingController {
     private LendingService service;
 
 
-
     @GetMapping("/")
     public ResponseEntity <List<LendingModel>> getLending(){
              List<LendingModel> lending = service.findAll();
@@ -29,8 +29,8 @@ public class LendingController {
     }
 
     @PostMapping("/")
-    public ResponseEntity <LendingModel> create (@RequestBody LendingModelDto lendingModelDto){
-        return ResponseEntity.status(HttpStatus.OK).body(service.create(lendingModelDto));
+    public ResponseEntity <LendingModel> create (@RequestBody @Valid LendingModelDto lendingModelDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(lendingModelDto));
     }
 
 }

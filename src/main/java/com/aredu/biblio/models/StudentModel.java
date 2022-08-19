@@ -19,7 +19,7 @@ public class StudentModel implements Serializable {
 	private long enrollmentId;
 	private String classroom;
 	private boolean active;
-	@OneToMany
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	private List<LendingModel> lendingModelList;
 
 	public StudentModel() {
@@ -72,9 +72,6 @@ public class StudentModel implements Serializable {
 		this.active = active;
 	}
 
-	public List<LendingModel> getLendingModelList() {
-		return lendingModelList;
-	}
 
 	@Override
 	public boolean equals(Object o) {

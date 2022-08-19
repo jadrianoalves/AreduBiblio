@@ -48,11 +48,11 @@ public class StudentService {
         return repository.findById(id);
     }
 
-    public StudentModel findOrSave (StudentModel studentModel){
-
+    public StudentModel findOrSave(StudentModel studentModel){
         Optional<StudentModel> student = findById(studentModel.getId());
-        if(student.isPresent()) return student.get();
-        return save(studentModel);
+        if(student.isEmpty()) return save(studentModel); else return student.get();
     }
+
+
 
 }
