@@ -1,11 +1,8 @@
 package com.aredu.biblio.service;
 
 import com.aredu.biblio.dto.LendingModelDto;
-import com.aredu.biblio.erros.BookNotFoundException;
-import com.aredu.biblio.models.BookModel;
 import com.aredu.biblio.models.LendingModel;
 import com.aredu.biblio.models.StatusLendingEnum;
-import com.aredu.biblio.models.StudentModel;
 import com.aredu.biblio.respository.LendingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -29,7 +25,7 @@ public class LendingService {
     private StudentService studentService;
 
     public List<LendingModel> findByBookCode(String bookCode){
-        return repository.findByBookCode(bookCode);
+        return repository.findAllByBookCode(bookCode);
     }
 
 
@@ -47,8 +43,9 @@ public class LendingService {
         return repository.save(lending);
     }
 
-    public LendingModel returnBook(String bookCode, String status){
-        return repository.findBorrowedBookByCode(bookCode, status);
+
+    public List<Object[]> findBorrowedBooks (String bookCode, StatusLendingEnum status){
+        return repository.findBorrowedBooksByBookCode(bookCode, status);
     }
 
 

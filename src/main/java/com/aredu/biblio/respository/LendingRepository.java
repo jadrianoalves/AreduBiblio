@@ -1,6 +1,7 @@
 package com.aredu.biblio.respository;
 
 import com.aredu.biblio.models.LendingModel;
+import com.aredu.biblio.models.StatusLendingEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,10 +12,10 @@ import java.util.Optional;
 @Repository
 public interface LendingRepository extends JpaRepository<LendingModel, Long> {
 
-    List<LendingModel> findByBookCode(String bookCode);
+    List<LendingModel> findAllByBookCode(String bookCode);
 
-    @Query(value = "Select L from LendingModel as L where L.bookCode = ?1 and L.status = ?2")
-    LendingModel findBorrowedBookByCode (String bookCode, String status);
+    @Query("Select c.bookCode, c.book, c.student, c.dateOfLending, c.dateOfDevolution, c.status from LendingModel as c where c.bookCode = :bookCode and status = :status")
+    List<Object[]> findBorrowedBooksByBookCode(String bookCode, StatusLendingEnum status);
 
 }
 

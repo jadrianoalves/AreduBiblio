@@ -1,9 +1,9 @@
 package com.aredu.biblio.controllers;
 
 import com.aredu.biblio.dto.LendingModelDto;
-import com.aredu.biblio.models.BookModel;
+import com.aredu.biblio.erros.BookNotFoundException;
 import com.aredu.biblio.models.LendingModel;
-import com.aredu.biblio.models.StudentModel;
+import com.aredu.biblio.models.StatusLendingEnum;
 
 import com.aredu.biblio.service.LendingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lending")
@@ -20,6 +22,10 @@ public class LendingController {
 
     @Autowired
     private LendingService service;
+
+    public LendingController(LendingService service) {
+        this.service = service;
+    }
 
 
     @GetMapping("/")
@@ -33,9 +39,11 @@ public class LendingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(lendingModelDto));
     }
 
-    @GetMapping("/return/{book}")
-    public ResponseEntity<LendingModel> returnBook (@PathVariable(value = "book") String bookCode){
-        return ResponseEntity.status(HttpStatus.OK).body(service.returnBook(bookCode, "BORROWED"));
+    @GetMapping("/return/{bookCode}")
+    public ResponseEntity<List<Object[]>> findBorrowedBooks (@PathVariable(value = "bookCode") String bookCode){
+            List<Object[]> lending = service.findBorrowedBooks(bookCode, StatusLendingEnum.RETURNED);
+        return ResponseEntity.status(HttpStatus.OK).body(lending);
     }
+
 
 }
