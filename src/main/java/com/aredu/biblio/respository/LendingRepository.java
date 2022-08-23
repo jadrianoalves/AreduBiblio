@@ -14,8 +14,11 @@ public interface LendingRepository extends JpaRepository<LendingModel, Long> {
 
     List<LendingModel> findAllByBookCode(String bookCode);
 
-    @Query("Select c.bookCode, c.book, c.student, c.dateOfLending, c.dateOfDevolution, c.status from LendingModel as c where c.bookCode = :bookCode and status = :status")
+    @Query("Select c.id, c.bookCode, c.book, c.student, c.dateOfLending, c.dateOfDevolution, c.status from LendingModel as c where c.bookCode = :bookCode and c.status = :status")
     List<Object[]> findBorrowedBooksByBookCode(String bookCode, StatusLendingEnum status);
+
+    @Query("Select count(c) from LendingModel as c where c.student.id = :id and c.status = 1")
+    Integer countByStudentLending (long id);
 
 }
 

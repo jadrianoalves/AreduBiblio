@@ -93,10 +93,7 @@ public class BookService {
 	}
 
 	public BookModel updateStatusBoook(BookModel bookModel){
-		Optional<Object> book = repository.findByBookCode(bookModel.getBookCode());
-		if(book.isEmpty()) throw new BookNotFoundException("livro não encontrado");
-		return repository.save((BookModel) book.get());
-
+		return repository.save((BookModel) bookModel);
 	}
 
 	public BookModel save(BookModel bookModel){

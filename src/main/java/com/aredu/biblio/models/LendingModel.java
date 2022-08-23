@@ -64,6 +64,9 @@ public class LendingModel implements Serializable{
 	public void setDateOfReturned(LocalDate dateOfReturned){
 		this.dateOfReturned = dateOfReturned;
 	}
+	public void setStatus(StatusLendingEnum status){
+		this.status = status;
+	}
 
 	private LendingModel(Builder builder){
 		this.bookCode = builder.getBookCode();
