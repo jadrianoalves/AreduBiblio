@@ -46,15 +46,15 @@ public class LendingController {
     }
 
     @GetMapping("/return/{option}/{bookCode}")
-    public ResponseEntity<List<Object[]>> findBorrowedBooks (@PathVariable(value = "option") String option, @PathVariable(value = "bookCode") String bookCode){
-            List<Object[]> lending = service.findBorrowedBooks(bookCode, StatusLendingEnum.valueOf(option));
+    public ResponseEntity<List<LendingModel>> findBorrowedBooks (@PathVariable(value = "option") String option, @PathVariable(value = "bookCode") String bookCode){
+            List<LendingModel> lending = service.findBorrowedBooks(bookCode, StatusLendingEnum.valueOf(option));
         return ResponseEntity.status(HttpStatus.OK).body(lending);
     }
 
-//    @GetMapping("/return/{bookCode}")
-//    public ResponseEntity<LendingModel> returnBook (@PathVariable(value = "bookCode") String bookCode){
-//        return ResponseEntity.status(HttpStatus.OK).body(service.returnBook(bookCode));
-//    }
+    @GetMapping("/returned/{student}")
+    public ResponseEntity<List<LendingModel>> returnBook (@PathVariable(value = "student") String student){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findLateReturnBook(Long.parseLong(student)));
+    }
 
 
 }

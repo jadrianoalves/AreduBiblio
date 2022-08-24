@@ -29,21 +29,16 @@ public class BookServiceTest {
 	
 	@InjectMocks
 	private BookService service;
-	
-	
+
 	@Mock
 	private BookRepository repository;
 
-	
-
 	@Test
-	@DisplayName("Deve criar um exemplar de livro")
-	void shouldSaveBook() {
+	@DisplayName("Deve criar um exemplar de livro apenas com o título")
+	void shouldSaveBookOnlyTitle() {
 
 		BookModelDto dto = new BookModelDto("","Isso é um teste","",1);
-		
-		List<BookModel> newBooks = service.create(dto);
-		
+			List<BookModel> newBooks = service.create(dto);
 		Assertions.assertThat(newBooks.size()).isEqualTo(1);
 		
 	}
@@ -60,8 +55,8 @@ public class BookServiceTest {
 				.addTitle("Isso é apenas um teste")
 				.build();
 
-		when(repository.findById(1L))
-			.thenReturn(Optional.of(book));
+		when(repository.findById(any()))
+				.thenReturn(Optional.of(book));
 		
 		Assertions.assertThat(repository.findById(1L).isPresent()).isTrue();
 		
