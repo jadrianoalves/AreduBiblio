@@ -52,8 +52,13 @@ public class LendingController {
     }
 
     @GetMapping("/returned/{student}")
-    public ResponseEntity<List<LendingModel>> returnBook (@PathVariable(value = "student") String student){
+    public ResponseEntity<List<LendingModel>> returnedBook (@PathVariable(value = "student") String student){
         return ResponseEntity.status(HttpStatus.OK).body(service.findLateReturnBook(Long.parseLong(student)));
+    }
+
+    @GetMapping("/return/{bookCode}")
+    public ResponseEntity<LendingModel> returnBook(@PathVariable(value = "bookCode") String bookCode){
+        return ResponseEntity.status(HttpStatus.OK).body(service.returnBook(bookCode));
     }
 
 

@@ -26,6 +26,8 @@ public interface LendingRepository extends JpaRepository<LendingModel, Long> {
     @Query(value = "Select u from LendingModel as u where u.student.id = :id and u.dateOfDevolution < :date and u.status = 1")
     List<LendingModel> findLateReturnBook (Long id, LocalDate date);
 
+    @Query(value = "select u from LendingModel as u where u.bookCode = :bookCode and u.status = 1")
+    LendingModel findLendBook (String bookCode);
 
 }
 

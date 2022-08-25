@@ -2,6 +2,7 @@ package com.aredu.biblio.service;
 
 import com.aredu.biblio.dto.LendingModelDto;
 import com.aredu.biblio.erros.BookNotFoundException;
+import com.aredu.biblio.models.BookModel;
 import com.aredu.biblio.models.LendingModel;
 import com.aredu.biblio.models.StatusLendingEnum;
 import com.aredu.biblio.respository.LendingRepository;
@@ -70,6 +71,15 @@ public class LendingService {
 
     public List<LendingModel> findLateReturnBook (long id){
         return repository.findLateReturnBook(id, LocalDate.now());
+    }
+
+
+    public LendingModel returnBook(String bookCode){
+        LendingModel lending = repository.findLendBook(bookCode);
+        if(lending == null) throw new BookNotFoundException("Livro não emprestado");
+        lending.setStatus(StatusLendingEnum.RETURNED);
+        lending.setDateOfReturned(LocalDate.now());
+        return repository.save(lending);
     }
 
 
