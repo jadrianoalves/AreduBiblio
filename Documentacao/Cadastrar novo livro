@@ -1,1 +1,68 @@
-<mxfile host="app.diagrams.net" modified="2022-08-25T11:17:52.355Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36" version="20.2.7" etag="HYAPllMIloDxOelmzZpa" type="github"><diagram id="hrQw9LL2itfMjqY_iCuA">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-08-25T12:47:26.198Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36" etag="vbE71OJ56va6c7irzXyK" version="20.2.7" type="github">
+  <diagram id="hrQw9LL2itfMjqY_iCuA" name="Page-1">
+    <mxGraphModel dx="1021" dy="540" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-1" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="160" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" edge="1" source="2YvQbXHFL3sQjkPobFjg-1" parent="1" target="2YvQbXHFL3sQjkPobFjg-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-3" target="2YvQbXHFL3sQjkPobFjg-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-3" value="Buscar livro pelo isbn" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="20" width="145" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-6" target="2YvQbXHFL3sQjkPobFjg-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-6" value="Verificar quantos exemplares do filme existe no banco de dados&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="250" y="260" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-9" target="2YvQbXHFL3sQjkPobFjg-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-9" value="Retornar filmes cadastrados para o usuario" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="138.75" y="560" width="182.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-11" target="2YvQbXHFL3sQjkPobFjg-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="355" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-11" target="2YvQbXHFL3sQjkPobFjg-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-11" value="Existe no banco de dados" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="240" y="140" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-17" target="2YvQbXHFL3sQjkPobFjg-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-17" value="Continuar a sequencia numerica do livro já existente&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="260" y="340" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="2YvQbXHFL3sQjkPobFjg-19" target="2YvQbXHFL3sQjkPobFjg-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-19" value="Gerar numero de exemplares do filme com numero sequencial e código exclusivo" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="110" y="440" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2YvQbXHFL3sQjkPobFjg-27" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="215" y="630" width="30" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
